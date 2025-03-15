@@ -24,7 +24,7 @@ const userData = [
   { name: 'Arun K', cancellationRate: 12, completedRides: 64, rating: 4.6 },
   { name: 'Deepa R', cancellationRate: 1, completedRides: 132, rating: 5.0 },
   { name: 'Karthik V', cancellationRate: 8, completedRides: 43, rating: 4.7 },
-  { name: 'Meena T', cancellationRate: 15, completedRides: 28, rating: 4.4 },
+  { name: 'Meena T', cancellationRate: 18, completedRides: 28, rating: 4.4 },
 ];
 
 // Mock chart data
