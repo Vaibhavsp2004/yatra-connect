@@ -1,158 +1,76 @@
-
-import React, { useEffect, useRef, useState } from 'react';
-import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { MapPin } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Flame } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Navbar from '@/components/Navbar';
+import Footer from '@/components/Footer';
+import GlassMorphism from '@/components/GlassMorphism';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import MapComponent from '@/components/MapComponent';
 
-// Set Mapbox access token
-mapboxgl.accessToken = 'pk.eyJ1IjoidmFpYmhhdnNwLWFpMjMiLCJhIjoiY204OXYzZ3VuMHlyYTJscXVtbW4yaXFtdiJ9.4vDOFDhaTFfxsSg0sezNJA';
+// Mock demand data for the heatmap (discrete zones for wards)
+const demandData = [
+  { id: 1, area: 'Yelahanka', level: 'High', coordinates: { lat: 13.1034, lng: 77.5855 } },
+  { id: 2, area: 'Malleshwaram', level: 'Medium', coordinates: { lat: 12.9970, lng: 77.5705 } },
+  { id: 3, area: 'Koramangala', level: 'High', coordinates: { lat: 12.9352, lng: 77.6245 } },
+  { id: 4, area: 'HSR Layout', level: 'Medium', coordinates: { lat: 12.9116, lng: 77.6446 } },
+  { id: 5, area: 'Jayanagar', level: 'Low', coordinates: { lat: 12.9300, lng: 77.5800 } },
+  { id: 6, area: 'Indiranagar', level: 'High', coordinates: { lat: 12.9784, lng: 77.6408 } },
+  { id: 7, area: 'Whitefield', level: 'Medium', coordinates: { lat: 12.9698, lng: 77.7500 } }
+];
 
-// Bengaluru coordinates as a tuple [longitude, latitude]
-const BENGALURU_CENTER: [number, number] = [77.5946, 12.9716];
+const getDemandMarkers = () => {
+  return demandData.map(location => ({
+    id: location.id,
+    coordinates: location.coordinates,
+    color: location.level === 'High' ? '#ef4444' :
+           location.level === 'Medium' ? '#eab308' : '#22c55e',
+    label: location.level,
+    radius: location.level === 'High' ? 20 :  // Adjusted radius for better visibility
+           location.level === 'Medium' ? 15 : 10
+  }));
+};
 
-interface MapComponentProps {
-  isLoading?: boolean;
-  markers?: Array<{
-    id: number;
-    coordinates: { lat: number; lng: number };
-    color: string;
-    label?: string | number;
-  }>;
-  showControls?: boolean;
-  mapStyle?: string;
-  className?: string;
-}
+const DemandMap = () => {
+  const [activeTab, setActiveTab] = useState("heatmap");
+  const [isLoading, setIsLoading] = useState(true);
 
-const MapComponent: React.FC<MapComponentProps> = ({
-  isLoading = false,
-  markers = [],
-  showControls = true,
-  mapStyle = 'mapbox://styles/mapbox/dark-v11',
-  className = '',
-}) => {
-  const mapContainer = useRef<HTMLDivElement>(null);
-  const map = useRef<mapboxgl.Map | null>(null);
-  const [showLegend, setShowLegend] = useState(true);
-  const markerRefs = useRef<{ [key: number]: mapboxgl.Marker }>({});
-
-  // Initialize map
   useEffect(() => {
-    if (!mapContainer.current || map.current) return;
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
 
-    map.current = new mapboxgl.Map({
-      container: mapContainer.current,
-      style: mapStyle,
-      center: BENGALURU_CENTER,
-      zoom: 11,
-      pitch: 30,
-      bearing: -15,
-    });
-
-    // Add navigation controls if needed
-    if (showControls) {
-      map.current.addControl(
-        new mapboxgl.NavigationControl(),
-        'top-right'
-      );
-    }
-
-    // Clean up on unmount
-    return () => {
-      if (map.current) {
-        map.current.remove();
-        map.current = null;
-      }
-    };
-  }, [mapStyle, showControls]);
-
-  // Handle markers update
-  useEffect(() => {
-    if (!map.current || isLoading) return;
-
-    // Remove all existing markers
-    Object.values(markerRefs.current).forEach(marker => marker.remove());
-    markerRefs.current = {};
-
-    // Add new markers
-    markers.forEach((marker) => {
-      const element = document.createElement('div');
-      element.className = 'flex items-center justify-center rounded-full w-6 h-6';
-      element.style.backgroundColor = marker.color;
-      
-      if (marker.label !== undefined) {
-        element.innerHTML = `<span class="text-xs font-bold text-white">${marker.label}</span>`;
-      }
-
-      const mapMarker = new mapboxgl.Marker(element)
-        .setLngLat([marker.coordinates.lng, marker.coordinates.lat])
-        .addTo(map.current!);
-      
-      markerRefs.current[marker.id] = mapMarker;
-    });
-  }, [markers, isLoading]);
-
-  // Go to user's location
-  const goToMyLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          if (map.current) {
-            map.current.flyTo({
-              center: [position.coords.longitude, position.coords.latitude],
-              zoom: 14,
-              essential: true
-            });
-          }
-        },
-        (error) => {
-          console.error('Error getting location:', error);
-        }
-      );
-    }
-  };
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
-    <div className={`relative ${className}`}>
-      {isLoading ? (
-        <div className="absolute inset-0 flex items-center justify-center bg-slate-800 rounded-lg">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-namma-green"></div>
-        </div>
-      ) : (
-        <>
-          <div ref={mapContainer} className="absolute inset-0 rounded-lg" />
-          
-          {/* Map controls */}
-          <div className="absolute top-3 right-3 flex flex-col gap-2">
-            {showLegend && (
-              <div className="flex items-center gap-3 p-3 bg-white/10 backdrop-blur-sm rounded-lg">
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-red-500"></div>
-                  <span className="text-xs">High</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-yellow-500"></div>
-                  <span className="text-xs">Medium</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="w-3 h-3 rounded-full bg-green-500"></div>
-                  <span className="text-xs">Low</span>
-                </div>
-              </div>
-            )}
-            <Button 
-              size="sm" 
-              variant="secondary" 
-              className="bg-white/20"
-              onClick={goToMyLocation}
-            >
-              <MapPin className="h-4 w-4 mr-1" /> My Location
-            </Button>
-          </div>
-        </>
-      )}
+    <div className="min-h-screen bg-background flex flex-col">
+      <Navbar />
+
+      <main className="flex-grow container-section py-6">
+        <Tabs defaultValue="heatmap" className="w-full" onValueChange={setActiveTab}>
+          <TabsList className="grid grid-cols-3 mb-6">
+            <TabsTrigger value="heatmap" className="flex items-center gap-2">
+              <Flame className="w-4 h-4" /> Demand Heatmap
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="heatmap" className="space-y-6">
+            <GlassMorphism className="relative aspect-video overflow-hidden">
+              <MapComponent 
+                isLoading={isLoading} 
+                markers={getDemandMarkers()}
+                mapStyle="mapbox://styles/mapbox/light-v11"
+                mapboxAccessToken="pk.eyJ1IjoidmFpYmhhdnNwLWFpMjMiLCJhIjoiY204OXYzZ3VuMHlyYTJscXVtbW4yaXFtdiJ9.4vDOFDhaTFfxsSg0sezNJA"
+                className="aspect-video"
+              />
+            </GlassMorphism>
+          </TabsContent>
+        </Tabs>
+      </main>
+
+      <Footer />
     </div>
   );
 };
 
-export default MapComponent;
+export default DemandMap;
