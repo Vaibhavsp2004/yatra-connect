@@ -1,13 +1,16 @@
 
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ChevronLeft } from 'lucide-react';
 import GlassMorphism from './GlassMorphism';
 import AnimatedElement from './AnimatedElement';
+import { useLocation, Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
+  const isNotHomePage = location.pathname !== '/';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,10 +42,17 @@ const Navbar = () => {
         <div className="container mx-auto px-4 md:px-6">
           <nav className="flex items-center justify-between">
             <AnimatedElement animation="fade-in" className="flex items-center">
-              <a href="#" className="flex items-center">
+              {isNotHomePage && (
+                <Link to="/" className="mr-3">
+                  <Button variant="ghost" size="icon" className="text-namma-dark hover:text-namma-purple">
+                    <ChevronLeft className="h-5 w-5" />
+                  </Button>
+                </Link>
+              )}
+              <Link to="/" className="flex items-center">
                 <span className="text-2xl font-bold text-namma-purple mr-1">Namma</span>
                 <span className="text-2xl font-bold text-namma-dark">Yatri</span>
-              </a>
+              </Link>
             </AnimatedElement>
 
             {/* Desktop Menu */}
