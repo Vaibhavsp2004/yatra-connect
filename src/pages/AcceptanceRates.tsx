@@ -244,7 +244,7 @@ const AcceptanceRates = () => {
                   </div>
                   <div>
                     <div className="flex justify-between text-sm mb-1">
-                      <span>Low Reliability (>15% cancellation)</span>
+                      <span>Low Reliability (&gt;15% cancellation)</span>
                       <span className="font-medium text-red-500">10% of users</span>
                     </div>
                     <Progress value={10} className="h-2 bg-white/10" />
