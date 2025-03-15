@@ -6,7 +6,7 @@ import { MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
 // Set Mapbox access token
-mapboxgl.accessToken = 'pk.eyJ1IjoibG92YWJsZS1haS13cml0ZXIiLCJhIjoiY2x1c2Nnb3RvMjVkZTJpdDdvb243ZnluZSJ9.6JlpTeFGO3wNLvRW_p5hEw';
+mapboxgl.accessToken = 'pk.eyJ1IjoidmFpYmhhdnNwLWFpMjMiLCJhIjoiY204OXYzZ3VuMHlyYTJscXVtbW4yaXFtdiJ9.4vDOFDhaTFfxsSg0sezNJA';
 
 // Bengaluru coordinates as a tuple [longitude, latitude]
 const BENGALURU_CENTER: [number, number] = [77.5946, 12.9716];
