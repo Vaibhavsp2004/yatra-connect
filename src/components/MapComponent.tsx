@@ -58,9 +58,8 @@ const DemandMap = () => {
             <GlassMorphism className="relative aspect-video overflow-hidden">
               <MapComponent 
                 isLoading={isLoading} 
-                markers={getDemandMarkers()}
+                markers={getDemandMarkers()} 
                 mapStyle="mapbox://styles/mapbox/light-v11"
-                mapboxAccessToken="pk.eyJ1IjoidmFpYmhhdnNwLWFpMjMiLCJhIjoiY204OXYzZ3VuMHlyYTJscXVtbW4yaXFtdiJ9.4vDOFDhaTFfxsSg0sezNJA"
                 className="aspect-video"
               />
             </GlassMorphism>
