@@ -8,8 +8,8 @@ import { Button } from '@/components/ui/button';
 // Set Mapbox access token
 mapboxgl.accessToken = 'pk.eyJ1IjoibG92YWJsZS1haS13cml0ZXIiLCJhIjoiY2x1c2Nnb3RvMjVkZTJpdDdvb243ZnluZSJ9.6JlpTeFGO3wNLvRW_p5hEw';
 
-// Bengaluru coordinates
-const BENGALURU_CENTER = [77.5946, 12.9716];
+// Bengaluru coordinates as a tuple [longitude, latitude]
+const BENGALURU_CENTER: [number, number] = [77.5946, 12.9716];
 
 interface MapComponentProps {
   isLoading?: boolean;
