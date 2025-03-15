@@ -24,8 +24,8 @@ const getDemandMarkers = () => {
     coordinates: location.coordinates,
     color: location.level === 'High' ? '#ef4444' :
            location.level === 'Medium' ? '#eab308' : '#22c55e',
-    radius: location.level === 'High' ? 1500 :
-           location.level === 'Medium' ? 1200 : 1000 // Bigger circles for wider coverage
+    radius: location.level === 'High' ? 3000 :  // Increased for visibility
+           location.level === 'Medium' ? 2000 : 1500
   }));
 };
 
