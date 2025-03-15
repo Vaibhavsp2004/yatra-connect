@@ -61,7 +61,9 @@
     "tailwindcss-animate": "^1.0.7",
     "vaul": "^0.9.3",
     "zod": "^3.23.8",
-    "@supabase/supabase-js": "^2.36.0"
+    "@supabase/supabase-js": "^2.36.0",
+    "axios": "^1.4.0",
+    "onnxruntime-node": "^1.15.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.9.0",
