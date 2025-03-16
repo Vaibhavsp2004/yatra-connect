@@ -1,13 +1,11 @@
 
 import React, { useState } from 'react';
-import { ThumbsUp, ThumbsDown, UserCheck, UserX, Users, BarChart4 } from 'lucide-react';
+import { ThumbsUp, ThumbsDown, UserCheck, UserX, Users } from 'lucide-react';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 import GlassMorphism from '@/components/GlassMorphism';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Progress } from '@/components/ui/progress';
-import { ChartContainer } from '@/components/ui/chart';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
 // Mock driver data
 const driverData = [
@@ -26,27 +24,6 @@ const userData = [
   { name: 'Karthik V', cancellationRate: 8, completedRides: 43, rating: 4.7 },
   { name: 'Meena T', cancellationRate: 18, completedRides: 28, rating: 4.4 },
 ];
-
-// Mock chart data
-const chartData = [
-  { time: '6 AM', acceptanceRate: 92, cancellationRate: 8 },
-  { time: '9 AM', acceptanceRate: 87, cancellationRate: 13 },
-  { time: '12 PM', acceptanceRate: 95, cancellationRate: 5 },
-  { time: '3 PM', acceptanceRate: 90, cancellationRate: 10 },
-  { time: '6 PM', acceptanceRate: 82, cancellationRate: 18 },
-  { time: '9 PM', acceptanceRate: 88, cancellationRate: 12 },
-];
-
-const chartConfig = {
-  acceptanceRate: {
-    label: "Acceptance Rate",
-    color: "#7CEF3E", // Green
-  },
-  cancellationRate: {
-    label: "Cancellation Rate",
-    color: "#EF3E3E", // Red
-  },
-};
 
 const AcceptanceRates = () => {
   const [activeTab, setActiveTab] = useState("drivers");
@@ -72,15 +49,12 @@ const AcceptanceRates = () => {
         </div>
 
         <Tabs defaultValue="drivers" className="w-full" onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-3 mb-6">
+          <TabsList className="grid grid-cols-2 mb-6">
             <TabsTrigger value="drivers" className="flex items-center gap-2">
               <UserCheck className="w-4 h-4" /> Driver Metrics
             </TabsTrigger>
             <TabsTrigger value="users" className="flex items-center gap-2">
               <UserX className="w-4 h-4" /> User Metrics
-            </TabsTrigger>
-            <TabsTrigger value="analytics" className="flex items-center gap-2">
-              <BarChart4 className="w-4 h-4" /> Analytics
             </TabsTrigger>
           </TabsList>
 
@@ -276,102 +250,6 @@ const AcceptanceRates = () => {
                     </p>
                     <p className="text-sm mt-1">
                       Potential restriction of certain platform features
-                    </p>
-                  </div>
-                </div>
-              </GlassMorphism>
-            </div>
-          </TabsContent>
-
-          <TabsContent value="analytics" className="space-y-6">
-            <GlassMorphism className="p-6">
-              <h2 className="text-xl font-semibold mb-4">Acceptance & Cancellation Trends</h2>
-              
-              <div className="h-80 w-full">
-                <ChartContainer config={chartConfig}>
-                  <BarChart data={chartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="time" />
-                    <YAxis unit="%" />
-                    <Tooltip />
-                    <Legend />
-                    <Bar dataKey="acceptanceRate" name="Acceptance Rate" fill="#7CEF3E" />
-                    <Bar dataKey="cancellationRate" name="Cancellation Rate" fill="#EF3E3E" />
-                  </BarChart>
-                </ChartContainer>
-              </div>
-              
-              <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                <div className="bg-white/5 p-3 rounded-lg">
-                  <h3 className="font-medium">Peak Hours</h3>
-                  <p className="text-sm mt-1">
-                    Highest acceptance rates occur during mid-day (12 PM - 3 PM)
-                  </p>
-                </div>
-                
-                <div className="bg-white/5 p-3 rounded-lg">
-                  <h3 className="font-medium">Rush Hour Impact</h3>
-                  <p className="text-sm mt-1">
-                    Cancellations increase during morning (9 AM) and evening (6 PM) rush hours
-                  </p>
-                </div>
-                
-                <div className="bg-white/5 p-3 rounded-lg">
-                  <h3 className="font-medium">Weekend Trends</h3>
-                  <p className="text-sm mt-1">
-                    Weekend acceptance rates average 5% higher than weekdays
-                  </p>
-                </div>
-              </div>
-            </GlassMorphism>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <GlassMorphism className="p-4">
-                <h3 className="font-semibold mb-3">Common Cancellation Reasons</h3>
-                <ul className="space-y-2">
-                  <li className="text-sm flex justify-between items-center">
-                    <span>Long pickup distance</span>
-                    <span className="bg-white/10 px-2 py-1 rounded text-xs">38%</span>
-                  </li>
-                  <li className="text-sm flex justify-between items-center">
-                    <span>Changed plans (user)</span>
-                    <span className="bg-white/10 px-2 py-1 rounded text-xs">24%</span>
-                  </li>
-                  <li className="text-sm flex justify-between items-center">
-                    <span>Excessive waiting time</span>
-                    <span className="bg-white/10 px-2 py-1 rounded text-xs">18%</span>
-                  </li>
-                  <li className="text-sm flex justify-between items-center">
-                    <span>Payment method issues</span>
-                    <span className="bg-white/10 px-2 py-1 rounded text-xs">12%</span>
-                  </li>
-                  <li className="text-sm flex justify-between items-center">
-                    <span>Other reasons</span>
-                    <span className="bg-white/10 px-2 py-1 rounded text-xs">8%</span>
-                  </li>
-                </ul>
-              </GlassMorphism>
-              
-              <GlassMorphism className="p-4">
-                <h3 className="font-semibold mb-3">Improvement Strategies</h3>
-                <div className="space-y-3">
-                  <div className="bg-white/5 p-3 rounded-lg">
-                    <h4 className="text-sm font-medium">For Drivers</h4>
-                    <p className="text-xs mt-1">
-                      Maintain high acceptance rates by being selective about when you go online
-                    </p>
-                    <p className="text-xs mt-1">
-                      Reach pickup locations promptly to reduce user cancellations
-                    </p>
-                  </div>
-                  
-                  <div className="bg-white/5 p-3 rounded-lg">
-                    <h4 className="text-sm font-medium">For Users</h4>
-                    <p className="text-xs mt-1">
-                      Only request rides when you're ready to be picked up
-                    </p>
-                    <p className="text-xs mt-1">
-                      Keep your payment methods updated to avoid payment-related cancellations
                     </p>
                   </div>
                 </div>
