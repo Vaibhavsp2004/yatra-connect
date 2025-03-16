@@ -11,6 +11,7 @@ import Footer from '@/components/Footer';
 import { MapPin, ThumbsUp, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import GlassMorphism from '@/components/GlassMorphism';
+import RideBookingForm from '@/components/RideBookingForm';
 
 const Index = () => {
   useEffect(() => {
@@ -41,6 +42,35 @@ const Index = () => {
       <Navbar />
       <main>
         <Hero />
+        
+        {/* New Ride Booking Section */}
+        <section className="py-16 bg-muted/30">
+          <div className="container-section">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              <div className="space-y-6">
+                <h2 className="heading-lg mb-2">Quick <span className="text-namma-purple">Booking</span></h2>
+                <p className="text-namma-gray text-lg">
+                  Book a ride directly with our easy-to-use booking form. Enter your pickup and drop locations to get started.
+                </p>
+                <div className="flex gap-4">
+                  <Link to="/demand-map" className="flex-1">
+                    <Button variant="outline" className="w-full border-namma-purple text-namma-purple hover:bg-namma-purple/10">
+                      View Demand Map
+                    </Button>
+                  </Link>
+                  <Link to="/pre-booking" className="flex-1">
+                    <Button variant="outline" className="w-full border-namma-blue text-namma-blue hover:bg-namma-blue/10">
+                      Schedule Ride
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+              
+              <RideBookingForm />
+            </div>
+          </div>
+        </section>
+        
         <Features />
         <DriverSection />
         <UserSection />
