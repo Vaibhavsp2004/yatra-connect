@@ -1,4 +1,5 @@
-import { downloadModel, runModel } from './modelLoader';
+
+import { downloadModel, runModel } from '../modelLoader';
 import * as ort from 'onnxruntime-node';
 
 async function makePrediction() {
