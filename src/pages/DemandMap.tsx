@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from 'react';
-import { Flame, Map as MapIcon, Navigation } from 'lucide-react';
+import { Flame, Map as MapIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
@@ -37,7 +37,7 @@ const getDemandMarkers = () => {
     color: location.level === 'High' ? '#ef4444' :
            location.level === 'Medium' ? '#eab308' : '#22c55e',
     label: location.area,
-    radius: location.level === 'High' ? 35 :  // Increased sizes
+    radius: location.level === 'High' ? 35 :
            location.level === 'Medium' ? 25 : 20
   }));
 };
@@ -58,7 +58,6 @@ const storePredictionData = async (predictionData) => {
 const DemandMap = () => {
   const [activeTab, setActiveTab] = useState("heatmap");
   const [isLoading, setIsLoading] = useState(true);
-  const [showLocationPicker, setShowLocationPicker] = useState(false);
   const [predictionData, setPredictionData] = useState(null);
   const [isPredicting, setIsPredicting] = useState(false);
 
@@ -97,15 +96,12 @@ const DemandMap = () => {
 
       <main className="flex-grow container-section py-6">
         <Tabs defaultValue="heatmap" className="w-full" onValueChange={setActiveTab}>
-          <TabsList className="grid grid-cols-3 mb-6">
+          <TabsList className="grid grid-cols-2 mb-6">
             <TabsTrigger value="heatmap" className="flex items-center gap-2">
               <Flame className="w-4 h-4" /> Demand Heatmap
             </TabsTrigger>
             <TabsTrigger value="drivers" className="flex items-center gap-2">
               <MapIcon className="w-4 h-4" /> Driver Map
-            </TabsTrigger>
-            <TabsTrigger value="directions" className="flex items-center gap-2">
-              <Navigation className="w-4 h-4" /> Ride Booking
             </TabsTrigger>
           </TabsList>
 
@@ -121,15 +117,15 @@ const DemandMap = () => {
               </Button>
             </div>
 
-            <GlassMorphism className="relative aspect-video overflow-hidden">
+            <div className="w-full h-[600px] rounded-lg overflow-hidden shadow-lg">
               <MapComponent 
                 isLoading={isLoading} 
                 markers={getDemandMarkers()} 
-                mapStyle="mapbox://styles/mapbox/light-v11"
-                className="aspect-video"
+                mapStyle="mapbox://styles/mapbox/dark-v11"
+                className="w-full h-full"
                 isDarkMode={true}
               />
-            </GlassMorphism>
+            </div>
 
             {predictionData && (
               <div className="bg-black/10 backdrop-blur-sm p-4 rounded-lg">
@@ -157,27 +153,15 @@ const DemandMap = () => {
           </TabsContent>
 
           <TabsContent value="drivers" className="space-y-6">
-            <GlassMorphism className="relative aspect-video overflow-hidden">
+            <div className="w-full h-[600px] rounded-lg overflow-hidden shadow-lg">
               <MapComponent 
                 isLoading={isLoading} 
-                mapStyle="mapbox://styles/mapbox/light-v11"
-                className="aspect-video"
+                mapStyle="mapbox://styles/mapbox/dark-v11"
+                className="w-full h-full"
                 isDarkMode={true}
                 showDrivers={true}
               />
-            </GlassMorphism>
-          </TabsContent>
-
-          <TabsContent value="directions" className="space-y-6">
-            <GlassMorphism className="relative aspect-video overflow-hidden">
-              <MapComponent 
-                isLoading={isLoading} 
-                mapStyle="mapbox://styles/mapbox/light-v11"
-                className="aspect-video"
-                isDarkMode={true}
-                showLocationPicker={true}
-              />
-            </GlassMorphism>
+            </div>
           </TabsContent>
         </Tabs>
       </main>

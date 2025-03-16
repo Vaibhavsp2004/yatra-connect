@@ -65,6 +65,29 @@
     -ms-overflow-style: none;  /* IE and Edge */
     scrollbar-width: none;  /* Firefox */
   }
+  
+  /* Map container */
+  .mapboxgl-map {
+    width: 100% !important;
+    height: 100% !important;
+    border-radius: 0.5rem;
+    overflow: hidden;
+  }
+  
+  /* Better map controls visibility */
+  .mapboxgl-ctrl-top-right {
+    top: 10px !important;
+    right: 10px !important;
+  }
+  
+  .mapboxgl-ctrl button {
+    background-color: rgba(0, 0, 0, 0.5) !important;
+    color: white !important;
+  }
+  
+  .mapboxgl-ctrl svg {
+    fill: white !important;
+  }
 }
 
 @layer components {

@@ -5,12 +5,13 @@ import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel } from '@/components/ui/form';
 import { useForm } from 'react-hook-form';
-import { MapPin, Navigation, Calendar, AlertCircle } from 'lucide-react';
+import { MapPin, Navigation, Calendar, Clock, AlertCircle } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Calendar as CalendarComponent } from '@/components/ui/calendar';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { Link } from 'react-router-dom';
 
 interface BookingFormValues {
   pickup: string;
@@ -123,6 +124,7 @@ const RideBookingForm = () => {
               render={({ field }) => (
                 <FormItem className="w-1/2">
                   <FormLabel className="flex items-center gap-2">
+                    <Clock className="h-4 w-4 text-namma-blue" />
                     Time (Optional)
                   </FormLabel>
                   <FormControl>
@@ -144,7 +146,12 @@ const RideBookingForm = () => {
           
           <div className="text-xs text-muted-foreground flex items-center gap-1 mt-2 justify-center">
             <AlertCircle className="h-3 w-3" />
-            <span>You can also use our demand map for finding the best driver availability</span>
+            <span>
+              <Link to="/demand-map" className="text-namma-purple hover:underline">
+                Check our demand map
+              </Link>{" "}
+              to see areas with high driver availability
+            </span>
           </div>
         </form>
       </Form>
